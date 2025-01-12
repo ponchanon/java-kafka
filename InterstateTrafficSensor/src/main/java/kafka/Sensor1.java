@@ -2,6 +2,7 @@ package kafka;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,20 @@ public class Sensor1 {
     }
 
     private final List<CarConfig> carConfigs = List.of(
-        new CarConfig("AA", 25000),
-        new CarConfig("BB", 22900),
-        new CarConfig("CC", 26500),
-        new CarConfig("EE", 22000),
-        new CarConfig("FF", 26000),
-        new CarConfig("GA", 25600),
-        new CarConfig("FB", 26200),
-        new CarConfig("FA", 27200),
-        new CarConfig("FG", 27500)
+        new CarConfig("AA", getRandomFixedRate()),
+        new CarConfig("BB", getRandomFixedRate()),
+        new CarConfig("CC", getRandomFixedRate()),
+        new CarConfig("EE", getRandomFixedRate()),
+        new CarConfig("FF", getRandomFixedRate()),
+        new CarConfig("GA", getRandomFixedRate()),
+        new CarConfig("FB", getRandomFixedRate()),
+        new CarConfig("FA", getRandomFixedRate()),
+        new CarConfig("FG", getRandomFixedRate())
     );
+
+    private int getRandomFixedRate() {
+        return ThreadLocalRandom.current().nextInt(22000, 30001); // Generates random value between 22000 and 30000 inclusive
+    }
 
     @Scheduled(fixedRate = 1000) // Tick every second to simulate dynamic scheduling
     public void scheduleTasks() {

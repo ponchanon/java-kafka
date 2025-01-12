@@ -3,6 +3,7 @@ package kafka;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,15 +30,19 @@ public class Sensor2 {
     private final List<CarConfig> carConfigs = new ArrayList<>();
 
     public Sensor2() {
-        carConfigs.add(new CarConfig("AS", 25800));
-        carConfigs.add(new CarConfig("BS", 23900));
-        carConfigs.add(new CarConfig("CS", 26100));
-        carConfigs.add(new CarConfig("ES", 22900));
-        carConfigs.add(new CarConfig("FS", 26700));
-        carConfigs.add(new CarConfig("GS", 25900));
-        carConfigs.add(new CarConfig("FBS", 24200));
-        carConfigs.add(new CarConfig("FAS", 23200));
-        carConfigs.add(new CarConfig("FGS", 28500));
+        carConfigs.add(new CarConfig("AS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("BS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("CS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("ES", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("FS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("GS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("FBS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("FAS", getRandomFixedRate()));
+        carConfigs.add(new CarConfig("FGS", getRandomFixedRate()));
+    }
+
+    private int getRandomFixedRate() {
+        return ThreadLocalRandom.current().nextInt(22000, 30001); // Generates random value between 22000 and 30000 inclusive
     }
 
     @Scheduled(fixedRate = 1000)
